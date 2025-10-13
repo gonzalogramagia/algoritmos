@@ -63,38 +63,45 @@ import profilePicture from "@/assets/profile-picture.jpg";
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     function updateCountdown() {
-      // Fechas de los parciales
-      const parcial1 = new Date('2025-09-18T14:00:00-03:00'); // 1° PARCIAL
-      const parcialLab = new Date('2025-09-22T14:00:00-03:00'); // 1° PARCIAL LABORATORIO
-      
+      // Fechas de los eventos (horario fijado a 14:00 -03:00 como en el formato anterior)
+      const events = [
+        { date: new Date('2025-09-18T14:00:00-03:00'), title: 'PRIMER PARCIAL (18 DE SEPTIEMBRE)' },
+        { date: new Date('2025-09-22T14:00:00-03:00'), title: '1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)' },
+        { date: new Date('2025-11-03T14:00:00-03:00'), title: '2° PARCIAL LABORATORIO (3 DE NOVIEMBRE)' },
+        { date: new Date('2025-11-10T14:00:00-03:00'), title: 'RECUPERATORIO LABORATORIO (10 DE NOVIEMBRE)' },
+        { date: new Date('2025-11-17T14:00:00-03:00'), title: '2° PARCIAL (17 DE NOVIEMBRE)' },
+        { date: new Date('2025-11-20T14:00:00-03:00'), title: 'RECUPERATORIO PROMOCIÓN (20 DE NOVIEMBRE)' }
+      ];
+
       const now = new Date();
-      
-      // Determinar cuál parcial mostrar
-      let targetDate, title, nextInfo;
-      
-      if (now < parcial1) {
-        // Aún no llegó el primer parcial
-        targetDate = parcial1;
-        title = "PRIMER PARCIAL (18 DE SEPTIEMBRE)";
-        nextInfo = "PRÓXIMO: 1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)";
-      } else if (now < parcialLab) {
-        // Pasó el primer parcial, mostrar el de laboratorio
-        targetDate = parcialLab;
-        title = "1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)";
-        nextInfo = "PRÓXIMO: 2° PARCIAL LABORATORIO (3 DE NOVIEMBRE)";
-      } else {
-        // Ambos parciales ya pasaron
-        targetDate = parcialLab;
-        title = "Parciales Completados";
-        nextInfo = "Esperando próximas fechas";
+
+      // Encontrar el primer evento en el futuro
+      let targetEvent = events.find(e => now < e.date);
+
+      // Si no hay eventos futuros, mostrar mensaje final
+      if (!targetEvent) {
+        document.getElementById('countdown-title').textContent = 'Parciales Completados';
+        document.getElementById('next-parcial-info').textContent = 'Esperando próximas fechas';
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '0';
+        document.getElementById('minutes').textContent = '0';
+        document.getElementById('seconds').textContent = '0';
+        return;
       }
-      
+
+      const targetDate = targetEvent.date;
+      const title = targetEvent.title;
+
+      // Determinar siguiente evento (para mostrar en "PRÓXIMO")
+      const nextIndex = events.indexOf(targetEvent) + 1;
+      const nextInfo = nextIndex < events.length ? `PRÓXIMO: ${events[nextIndex].title}` : 'Esperando próximas fechas';
+
       const difference = targetDate.getTime() - now.getTime();
-      
+
       // Actualizar título e información del próximo
       document.getElementById('countdown-title').textContent = title;
       document.getElementById('next-parcial-info').textContent = nextInfo;
-      
+
       if (difference <= 0) {
         document.getElementById('days').textContent = '0';
         document.getElementById('hours').textContent = '0';
@@ -102,18 +109,18 @@ import profilePicture from "@/assets/profile-picture.jpg";
         document.getElementById('seconds').textContent = '0';
         return;
       }
-      
+
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      
+
       document.getElementById('days').textContent = days.toString().padStart(2, '0');
       document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
       document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
       document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
     }
-    
+
     // Actualizar cada segundo
     updateCountdown();
     setInterval(updateCountdown, 1000);
