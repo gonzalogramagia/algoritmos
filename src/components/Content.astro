@@ -13,9 +13,7 @@ import NavigationLink from "@/components/NavigationLink.astro";
   {
     SITE.customLinks.map((link) => {
       return (
-        <li>
-          <CustomLink url={link.url}>{link.title}</CustomLink>
-        </li>
+        <CustomLink url={link.url} text={link.title}>{link.title}</CustomLink>
       );
     })
   }

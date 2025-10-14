@@ -73,6 +73,26 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# Lockfiles from other package managers (keep yarn.lock)
+package-lock.json
+pnpm-lock.yaml
+
+# Yarn PnP files / caches (ignore most .yarn artifacts but allow common committed folders)
+.pnp.*
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+
+# Vite / dev caches
+.vite/
+
+# Netlify / Vercel
+.vercel/
+.netlify/
+
+# Parcel cache
+.parcel-cache/
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
