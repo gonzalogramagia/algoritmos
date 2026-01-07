@@ -3,11 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preinstall": "npx only-allow yarn",
+    "dev": "npx only-allow yarn && astro dev",
+    "start": "npx only-allow yarn && astro dev",
+    "build": "npx only-allow yarn && astro build",
+    "preview": "npx only-allow yarn && astro preview",
+    "astro": "npx only-allow yarn && astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

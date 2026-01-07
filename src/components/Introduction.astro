@@ -26,7 +26,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
   </p>
   {/* <div class="text-center pt-8">
     <a
-      href="https://algo.goalritmo.com"
+      href="https://algoritmos1.com"
       class="pt-8 text-lg font-medium uppercase text-lightModeForegroundMuted underline underline-offset-4 hover:text-lightModeForeground dark:text-darkModeForegroundMuted dark:hover:text-darkModeForeground"
     >
       {`← Algoritmos`}
@@ -35,7 +35,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
   
   <!-- Componente de cuenta regresiva para parciales -->
   <div class="countdown-container text-center py-4 mt-8">
-    <h2 class="text-xl font-bold mb-4" style="color: #047af8;" id="countdown-title">PRIMER PARCIAL (18 DE SEPTIEMBRE)</h2>
+    <h2 class="text-xl font-bold mb-4" style="color: #047af8;" id="countdown-title">MESA DE FINAL (10 DE FEBRERO)</h2>
     <div class="countdown-timer text-lg font-mono p-4 mx-4">
       <span id="days">--</span> días, 
       <span id="hours">--</span> horas, 
@@ -43,7 +43,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
       <span id="seconds">--</span> segs
     </div>
     <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-      <p class="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide" id="next-parcial-info">PRÓXIMO: 1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)</p>
+      <p class="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wide" id="next-parcial-info">PRÓXIMO: MESA DE FINAL (24 DE FEBRERO)</p>
     </div>
   </div>
 
@@ -63,46 +63,26 @@ import profilePicture from "@/assets/profile-picture.jpg";
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     function updateCountdown() {
-      // Fechas de los parciales (hora 14:00 -03:00)
-      const parcial1 = new Date('2025-09-18T14:00:00-03:00'); // 1° PARCIAL
-      const parcialLab = new Date('2025-09-22T14:00:00-03:00'); // 1° PARCIAL LABORATORIO
-      const parcial2Lab = new Date('2025-11-03T14:00:00-03:00'); // 2° PARCIAL LABORATORIO
-      const recuperatorioLab = new Date('2025-11-10T14:00:00-03:00'); // RECUPERATORIO LABORATORIO
-      const parcial2 = new Date('2025-11-17T14:00:00-03:00'); // 2° PARCIAL
-      const recuperatorioProm = new Date('2025-11-20T14:00:00-03:00'); // RECUPERATORIO PROMOCIÓN
+      // Fechas de los finales (hora 10:00 -03:00)
+      const final1 = new Date('2026-02-10T10:00:00-03:00'); // MESA DE FINAL 1
+      const final2 = new Date('2026-02-24T10:00:00-03:00'); // MESA DE FINAL 2
 
       const now = new Date();
 
       // Determinar cuál parcial/evento mostrar
       let targetDate, title, nextInfo;
 
-      if (now < parcial1) {
-        targetDate = parcial1;
-        title = "PRIMER PARCIAL (18 DE SEPTIEMBRE)";
-        nextInfo = "PRÓXIMO: 1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)";
-      } else if (now < parcialLab) {
-        targetDate = parcialLab;
-        title = "1° PARCIAL LABORATORIO (22 DE SEPTIEMBRE)";
-        nextInfo = "PRÓXIMO: 2° PARCIAL LABORATORIO (3 DE NOVIEMBRE)";
-      } else if (now < parcial2Lab) {
-        targetDate = parcial2Lab;
-        title = "2° PARCIAL LABORATORIO (3 DE NOVIEMBRE)";
-        nextInfo = "PRÓXIMO: RECUPERATORIO LABORATORIO (10 DE NOVIEMBRE)";
-      } else if (now < recuperatorioLab) {
-        targetDate = recuperatorioLab;
-        title = "RECUPERATORIO LABORATORIO (10 DE NOVIEMBRE)";
-        nextInfo = "PRÓXIMO: 2° PARCIAL (17 DE NOVIEMBRE)";
-      } else if (now < parcial2) {
-        targetDate = parcial2;
-        title = "2° PARCIAL (17 DE NOVIEMBRE)";
-        nextInfo = "PRÓXIMO: RECUPERATORIO PROMOCIÓN (20 DE NOVIEMBRE)";
-      } else if (now < recuperatorioProm) {
-        targetDate = recuperatorioProm;
-        title = "RECUPERATORIO PROMOCIÓN (20 DE NOVIEMBRE)";
+      if (now < final1) {
+        targetDate = final1;
+        title = "MESA DE FINAL (10 DE FEBRERO)";
+        nextInfo = "PRÓXIMO: MESA DE FINAL (24 DE FEBRERO)";
+      } else if (now < final2) {
+        targetDate = final2;
+        title = "MESA DE FINAL (24 DE FEBRERO)";
         nextInfo = "Esperando próximas fechas";
       } else {
-        targetDate = recuperatorioProm;
-        title = "Parciales Completados";
+        targetDate = final2;
+        title = "Finales Completados";
         nextInfo = "Esperando próximas fechas";
       }
       
