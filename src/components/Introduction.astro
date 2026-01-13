@@ -9,9 +9,12 @@ import profilePictureDarkSrc from "@/assets/algoritmos-dark.png";
 interface Props {
   title?: string;
   bio?: string;
+  profileImage?: string;
+  imageScale?: string;
+  hideCountdown?: boolean;
 }
 
-const { title = SITE.name, bio = SITE.bio } = Astro.props;
+const { title = SITE.name, bio = SITE.bio, profileImage, imageScale = 'scale-100', hideCountdown = false } = Astro.props;
 const profilePicture = profilePictureSrc;
 const profilePictureDark = profilePictureDarkSrc;
 ---
@@ -20,34 +23,44 @@ const profilePictureDark = profilePictureDarkSrc;
   <div class="block group relative">
     <Image
       id="profile-image-light"
-      src={profilePicture}
-      alt={SITE.name}
+      src={profileImage || profilePicture}
+      alt={title}
       height={256}
       width={256}
       loading="eager"
       draggable="false"
-      class="mx-auto size-32 rounded-full transition-all duration-300 ease-in-out opacity-90 dark:hidden block"
+      class={`mx-auto size-32 rounded-full transition-all duration-300 ease-in-out opacity-90 object-contain ${imageScale} ${profileImage ? 'block' : 'dark:hidden block'}`}
     />
-    <Image
-      id="profile-image-dark"
-      src={profilePictureDark}
-      alt={SITE.name}
-      height={256}
-      width={256}
-      loading="eager"
-      draggable="false"
-      class="mx-auto size-32 rounded-full transition-all duration-300 ease-in-out opacity-90 hidden dark:block"
-    />
+    { !profileImage && (
+      <Image
+        id="profile-image-dark"
+        src={profilePictureDark}
+        alt={title}
+        height={256}
+        width={256}
+        loading="eager"
+        draggable="false"
+        class={`mx-auto size-32 rounded-full transition-all duration-300 ease-in-out opacity-90 object-contain ${imageScale} hidden dark:block`}
+      />
+    )}
     <h1 class="mt-4 text-center text-3xl font-semibold text-yellow-500 transition-colors duration-200">{title}</h1>
   </div>
   <p
-    class="mt-1 text-balance text-center text-sm text-lightModeForegroundMuted dark:text-darkModeForegroundMuted"
+    id="bio"
+    class="mt-4 text-center text-base font-light text-lightModeForegroundMuted dark:text-darkModeForegroundMuted"
   >
     {bio}
   </p>
-  
-  <!-- Spacer shown when countdown is hidden -->
-  <div id="countdown-spacer" class="h-6 hidden"></div>
+  {!hideCountdown && (
+    <div id="countdown-container" class="mt-6 text-center">
+      <div
+        id="countdown"
+        class="inline-block rounded-lg bg-yellow-500/10 px-4 py-2 text-sm font-medium text-yellow-600 dark:bg-yellow-400/10 dark:text-yellow-400"
+      >
+        <span id="countdown-text">Cargando...</span>
+      </div>
+    </div>
+  )}
   {/* <div class="text-center pt-8">
     <a
       href="https://algoritmos1.com"
@@ -57,7 +70,6 @@ const profilePictureDark = profilePictureDarkSrc;
     </a>
   </div> */}
   
-  <!-- Componente de cuenta regresiva para parciales -->
   <div id="countdown-container" class="countdown-container text-center py-4 mt-8">
     <h2 class="text-2xl font-bold mb-4" style="color: #E58C61;" id="countdown-title">MESA DE FINAL (10 DE FEBRERO)</h2>
     <div class="countdown-timer text-lg font-mono p-4 mx-4">

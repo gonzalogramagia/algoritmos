@@ -54,9 +54,9 @@ import { Icon } from "astro-icon/components";
         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visibilidad</h3>
         <p class="text-xs text-slate-500 mb-2">Controla qué elementos quieres ver en tu pantalla.</p>
 
-        <label class="flex items-center justify-between cursor-pointer group">
+        <label class="flex items-center justify-between cursor-pointer group" id="countdown-switch-container">
           <div class="flex items-center gap-2">
-            <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
                  <Icon name="lucide:timer" id="icon-countdown-on" class="absolute w-5 h-5 transition-all scale-100" />
                  <Icon name="lucide:timer-off" id="icon-countdown-off" class="absolute w-5 h-5 transition-all scale-0 hidden" />
             </div>
@@ -133,7 +133,7 @@ import { Icon } from "astro-icon/components";
   // State variables - re-select on each load
   let toggleBtn, modal, closeBtn, footerCloseBtn;
   let switchCountdown, switchDarkMode;
-  let inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl;
+  let inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl, inputBackTitle, inputBackUrl;
 
   function initConfig() {
      toggleBtn = document.getElementById('config-toggle-btn');
@@ -149,13 +149,22 @@ import { Icon } from "astro-icon/components";
      inputBottomTitle = document.getElementById('input-bottom-title') as HTMLInputElement;
      inputBottomUrl = document.getElementById('input-bottom-url') as HTMLInputElement;
     
+     // Hide countdown switch on /salud page
+     const countdownContainer = document.getElementById('countdown-switch-container');
+     if (window.location.pathname.startsWith('/salud') && countdownContainer) {
+       countdownContainer.style.display = 'none';
+     }
+    
      loadConfig();
      setupEventListeners();
   }
 
   // Load config logic
   function getConfigKey() {
-    return window.location.pathname.startsWith('/clases') ? 'clasesConfig' : 'appConfig';
+    const path = window.location.pathname;
+    if (path.startsWith('/clases')) return 'clasesConfig';
+    if (path.startsWith('/salud')) return 'saludConfig';
+    return 'appConfig';
   }
 
   function loadConfig() {
@@ -167,7 +176,9 @@ import { Icon } from "astro-icon/components";
     // Update Header
     const modalTitle = document.querySelector('#config-modal h2');
     if (modalTitle) {
-         modalTitle.textContent = pageKey === 'clasesConfig' ? 'Configuración (Clases)' : 'Configuración';
+         if (pageKey === 'clasesConfig') modalTitle.textContent = 'Configuración (Clases)';
+         else if (pageKey === 'saludConfig') modalTitle.textContent = 'Configuración (Salud)';
+         else modalTitle.textContent = 'Configuración';
     }
     
     // Switches -> Shared (appConfig)

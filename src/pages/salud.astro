@@ -1,0 +1,46 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Content from "@/components/Content.astro";
+import wellbeingImage from "@/assets/wellbeing.jpg";
+
+const saludLinks = [
+    {
+      "id": "1728534585737",
+      "title": "⚽ Grilla de Deportes",
+      "url": "https://unc.edu.ar/vida-estudiantil/deportes-unc-2025"
+    },
+    {
+      "id": "1728534585738",
+      "title": "💪 Horarios del Gimnasio",
+      "url": "https://instagram.com/p/DIe5x1qyWiG/"
+    },
+    {
+      "id": "1728534585739",
+      "title": "🍎 Comedor Universitario",
+      "url": "https://unc.edu.ar/vida-estudiantil/comedor-universitario-2025"
+    },
+    {
+      "id": "1728534585740",
+      "title": "🧭 Trayectorias Estudiantiles",
+      "url": "https://unc.edu.ar/vida-estudiantil/trayectorias-acad%C3%A9micas-estudiantiles"
+    },
+    {
+      "id": "back-home",
+      "title": "⬅ Volver atrás",
+      "url": "/"
+    }
+];
+---
+
+<BaseLayout>
+  <main>
+    <Content 
+        title="Bienestar" 
+        bio="Estudiantil" 
+        links={saludLinks}
+        profileImage={wellbeingImage}
+        imageScale="scale-100"
+        hideCountdown={true}
+    />
+  </main>
+</BaseLayout>

@@ -10,12 +10,18 @@ interface Props {
   title?: string;
   bio?: string;
   links?: any[];
+  profileImage?: string;
+  imageScale?: string;
+  hideCountdown?: boolean;
 }
 
-const { title, bio, links = SITE.customLinks } = Astro.props;
+const { title, bio, links = SITE.customLinks, profileImage, imageScale, hideCountdown = false } = Astro.props;
+
+// Determine if we should place bottom link in penultimate position
+const shouldPlaceBottomLinkBeforeLast = Astro.url.pathname.startsWith('/clases') || Astro.url.pathname.startsWith('/salud');
 ---
 
-<Introduction title={title} bio={bio} />
+<Introduction title={title} bio={bio} profileImage={profileImage} imageScale={imageScale} hideCountdown={hideCountdown} />
 
 <ul id="custom-links-list" class="grid gap-y-6 pb-12 pt-4 text-center">
   <!-- Dynamic Top Link -->
@@ -25,23 +31,76 @@ const { title, bio, links = SITE.customLinks } = Astro.props;
   </li>
 
   {
-    links.map((link) => {
-      return (
-        <CustomLink url={link.url} text={link.title}>{link.title}</CustomLink>
-      );
-    })
+    shouldPlaceBottomLinkBeforeLast ? (
+      // For /clases and /salud: render all except last, then bottomLink, then last
+      <>
+        {links.slice(0, -1).map((link) => (
+          <CustomLink url={link.url} text={link.title}>{link.title}</CustomLink>
+        ))}
+        
+        <!-- Dynamic Bottom Link (penultimate position) -->
+        <li id="bottom-link-item" class="hidden">
+           <a id="bottom-link-anchor" href="#" class="hover:bg-lightModeCustomLinkBackgroundHover dark:hover:bg-darkModeCustomLinkBackgroundHover hover:ring-lightModeCustomLinkOutlineHover dark:hover:ring-darkModeCustomLinkOutlineHover hover:text-lightModeCustomLinkTextHover dark:hover:text-darkModeCustomLinkTextHover flex items-center justify-center gap-2 rounded-full bg-lightModeCustomLinkBackground px-6 py-3 text-lg text-lightModeCustomLinkText ring-2 ring-lightModeCustomLinkOutline transition-all duration-200 ease-in-out hover:scale-105 dark:bg-darkModeCustomLinkBackground dark:text-darkModeCustomLinkText dark:ring-darkModeCustomLinkOutline">
+           </a>
+        </li>
+        
+        {links.length > 0 && (
+          <CustomLink url={links[links.length - 1].url} text={links[links.length - 1].title}>{links[links.length - 1].title}</CustomLink>
+        )}
+      </>
+    ) : (
+      // For home page: render all links, then bottomLink at the end
+      <>
+        {links.map((link) => (
+          <CustomLink url={link.url} text={link.title}>{link.title}</CustomLink>
+        ))}
+        
+        <!-- Dynamic Bottom Link (last position) -->
+        <li id="bottom-link-item" class="hidden">
+           <a id="bottom-link-anchor" href="#" class="hover:bg-lightModeCustomLinkBackgroundHover dark:hover:bg-darkModeCustomLinkBackgroundHover hover:ring-lightModeCustomLinkOutlineHover dark:hover:ring-darkModeCustomLinkOutlineHover hover:text-lightModeCustomLinkTextHover dark:hover:text-darkModeCustomLinkTextHover flex items-center justify-center gap-2 rounded-full bg-lightModeCustomLinkBackground px-6 py-3 text-lg text-lightModeCustomLinkText ring-2 ring-lightModeCustomLinkOutline transition-all duration-200 ease-in-out hover:scale-105 dark:bg-darkModeCustomLinkBackground dark:text-darkModeCustomLinkText dark:ring-darkModeCustomLinkOutline">
+           </a>
+        </li>
+      </>
+    )
   }
-
-  <!-- Dynamic Bottom Link -->
-  <li id="bottom-link-item" class="hidden">
-     <a id="bottom-link-anchor" href="#" target="_blank" rel="noopener noreferrer" class="hover:bg-lightModeCustomLinkBackgroundHover dark:hover:bg-darkModeCustomLinkBackgroundHover hover:ring-lightModeCustomLinkOutlineHover dark:hover:ring-darkModeCustomLinkOutlineHover hover:text-lightModeCustomLinkTextHover dark:hover:text-darkModeCustomLinkTextHover flex items-center justify-center gap-2 rounded-full bg-lightModeCustomLinkBackground px-6 py-3 text-lg text-lightModeCustomLinkText ring-2 ring-lightModeCustomLinkOutline transition-all duration-200 ease-in-out hover:scale-105 dark:bg-darkModeCustomLinkBackground dark:text-darkModeCustomLinkText dark:ring-darkModeCustomLinkOutline">
-     </a>
-  </li>
 </ul>
 
 <script>
   function applyConfig() {
-    const key = window.location.pathname.startsWith('/clases') ? 'clasesConfig' : 'appConfig';
+    const path = window.location.pathname;
+    let key = 'appConfig';
+    if (path.startsWith('/clases')) key = 'clasesConfig';
+    if (path.startsWith('/salud')) key = 'saludConfig';
+
+    // Initialize default bottom link for salud if not set
+    if (key === 'saludConfig') {
+      const existingConfig = JSON.parse(localStorage.getItem(key) || '{}');
+      
+      // Set default top link if not exists
+      if (!existingConfig.topLink || (!existingConfig.topLink.title && !existingConfig.topLink.url)) {
+        existingConfig.topLink = {
+          title: '<⚙/> Taller de Ajedrez',
+          url: 'https://www.ajedrezfamaf.com/'
+        };
+      }
+      
+      localStorage.setItem(key, JSON.stringify(existingConfig));
+    }
+
+    // Initialize default bottom link for home page if not set
+    if (key === 'appConfig') {
+      const existingConfig = JSON.parse(localStorage.getItem(key) || '{}');
+      
+      // Set default bottom link if not exists
+      if (!existingConfig.bottomLink || (!existingConfig.bottomLink.title && !existingConfig.bottomLink.url)) {
+        existingConfig.bottomLink = {
+          title: '<⚙/> Bienestar Estudiantil',
+          url: '/salud'
+        };
+        localStorage.setItem(key, JSON.stringify(existingConfig));
+      }
+    }
+
     const config = JSON.parse(localStorage.getItem(key) || '{}');
     
     // Top Link
