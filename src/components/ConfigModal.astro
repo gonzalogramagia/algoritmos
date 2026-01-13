@@ -57,8 +57,8 @@ import { Icon } from "astro-icon/components";
         <label class="flex items-center justify-between cursor-pointer group">
           <div class="flex items-center gap-2">
             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
-                 <Icon name="lucide:timer" id="icon-countdown-on" class="absolute w-5 h-5 transition-all scale-100 rotate-0" />
-                 <Icon name="lucide:timer-off" id="icon-countdown-off" class="absolute w-5 h-5 transition-all scale-0 -rotate-90 hidden" />
+                 <Icon name="lucide:timer" id="icon-countdown-on" class="absolute w-5 h-5 transition-all scale-100" />
+                 <Icon name="lucide:timer-off" id="icon-countdown-off" class="absolute w-5 h-5 transition-all scale-0 hidden" />
             </div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Cuenta Regresiva</span>
           </div>
@@ -260,15 +260,15 @@ import { Icon } from "astro-icon/components";
      const sun = document.getElementById('icon-darkmode-off');
      
      if (switchCountdown.checked) {
-         timerOn?.classList.remove('hidden', 'scale-0', '-rotate-90');
-         timerOn?.classList.add('scale-100', 'rotate-0');
-         timerOff?.classList.add('hidden', 'scale-0', '-rotate-90');
-         timerOff?.classList.remove('scale-100', 'rotate-0');
+         timerOn?.classList.remove('hidden', 'scale-0');
+         timerOn?.classList.add('scale-100');
+         timerOff?.classList.add('hidden', 'scale-0');
+         timerOff?.classList.remove('scale-100');
      } else {
-         timerOn?.classList.add('hidden', 'scale-0', 'rotate-90');
-         timerOn?.classList.remove('scale-100', 'rotate-0');
-         timerOff?.classList.remove('hidden', 'scale-0', '-rotate-90');
-         timerOff?.classList.add('scale-100', 'rotate-0');
+         timerOn?.classList.add('hidden', 'scale-0');
+         timerOn?.classList.remove('scale-100');
+         timerOff?.classList.remove('hidden', 'scale-0');
+         timerOff?.classList.add('scale-100');
      }
 
      if (switchDarkMode.checked) {
