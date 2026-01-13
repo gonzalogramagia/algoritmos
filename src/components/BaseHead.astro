@@ -46,6 +46,23 @@ import Favicons from "@/components/Favicons.astro";
   />
 
   <ViewTransitions />
+  <script is:inline>
+    // Immediate execution to prevent flash
+    function applyTheme() {
+      const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+      if (config.darkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+    
+    // Apply on initial load
+    applyTheme();
+    
+    // Re-apply on view transitions (prevents flash)
+    document.addEventListener('astro:after-swap', applyTheme);
+  </script>
   <Favicons />
 
 

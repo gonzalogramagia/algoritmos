@@ -7,7 +7,7 @@ import { Icon } from "astro-icon/components";
 <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 mx-auto max-w-screen-sm inset-x-0">
     <button
       id="config-toggle-btn"
-      class="absolute pointer-events-auto top-8 left-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
+      class="absolute pointer-events-auto top-8 left-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group dark:bg-gray-800 dark:border-gray-700"
       aria-label="Abrir configuración"
     >
       <svg
@@ -20,7 +20,7 @@ import { Icon } from "astro-icon/components";
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
+        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100"
       >
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
       </svg>
@@ -63,12 +63,14 @@ import { Icon } from "astro-icon/components";
         </label>
 
         <label class="flex items-center justify-between cursor-pointer">
-          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Volver a la Raíz</span>
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Modo Oscuro</span>
           <div class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="switch-root" class="sr-only peer">
+            <input type="checkbox" id="switch-darkmode" class="sr-only peer">
             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           </div>
         </label>
+
+
       </div>
 
       <!-- Links Editing -->
@@ -118,7 +120,7 @@ import { Icon } from "astro-icon/components";
 <script>
   // State variables - re-select on each load
   let toggleBtn, modal, closeBtn, footerCloseBtn;
-  let switchCountdown, switchRoot;
+  let switchCountdown, switchDarkMode;
   let inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl;
 
   function initConfig() {
@@ -128,7 +130,7 @@ import { Icon } from "astro-icon/components";
      footerCloseBtn = document.getElementById('close-modal-footer-btn');
     
      switchCountdown = document.getElementById('switch-countdown') as HTMLInputElement;
-     switchRoot = document.getElementById('switch-root') as HTMLInputElement;
+     switchDarkMode = document.getElementById('switch-darkmode') as HTMLInputElement;
 
      inputTopTitle = document.getElementById('input-top-title') as HTMLInputElement;
      inputTopUrl = document.getElementById('input-top-url') as HTMLInputElement;
@@ -158,7 +160,10 @@ import { Icon } from "astro-icon/components";
     
     // Switches -> Shared (appConfig)
     switchCountdown.checked = appConfig.showCountdown !== false; 
-    switchRoot.checked = appConfig.showBackToRoot === true; 
+    switchDarkMode.checked = appConfig.darkMode === true;
+    
+    // Apply initial state
+    toggleDarkMode(appConfig.darkMode === true);
     
     // Links -> Page Specific (pageConfig)
     if (pageConfig.topLink) {
@@ -185,8 +190,10 @@ import { Icon } from "astro-icon/components";
     // 1. Update Shared Config (Switches)
     const appConfig = JSON.parse(localStorage.getItem('appConfig') || '{}');
     appConfig.showCountdown = switchCountdown.checked;
-    appConfig.showBackToRoot = switchRoot.checked;
+    appConfig.darkMode = switchDarkMode.checked;
     localStorage.setItem('appConfig', JSON.stringify(appConfig));
+
+    toggleDarkMode(appConfig.darkMode);
 
     // 2. Update Page Config (Links)
     // If we are on home, we just updated appConfig, so we must add links to it.
@@ -222,6 +229,14 @@ import { Icon } from "astro-icon/components";
   }
 
   
+  function toggleDarkMode(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
+
   function setupEventListeners() {
     // Modal controls
     if (toggleBtn && modal) {
@@ -245,7 +260,7 @@ import { Icon } from "astro-icon/components";
 
     // Instant updates
     if (switchCountdown) switchCountdown.addEventListener('change', updateConfig);
-    if (switchRoot) switchRoot.addEventListener('change', updateConfig);
+    if (switchDarkMode) switchDarkMode.addEventListener('change', updateConfig);
     
     [inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl].forEach(input => {
         if (input) input.addEventListener('input', updateConfig);

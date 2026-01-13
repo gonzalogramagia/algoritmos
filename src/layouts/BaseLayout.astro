@@ -11,7 +11,7 @@ import { Icon } from "astro-icon/components";
   <BaseHead>
     <slot name="head" />
   </BaseHead>
-  <body class="mx-auto min-h-screen max-w-screen-sm p-3 font-sans sm:p-6">
+  <body class="mx-auto min-h-screen max-w-screen-sm p-3 font-sans sm:p-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
     <main>
       <slot />
     </main>
@@ -20,12 +20,12 @@ import { Icon } from "astro-icon/components";
         href="https://github.com/gonzalogramagia/algoritmos"
         target="_blank"
         rel="noopener noreferrer"
-        class="absolute pointer-events-auto top-8 right-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
+        class="absolute pointer-events-auto top-8 right-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group dark:bg-gray-800 dark:border-gray-700"
         aria-label="Ir al repo de GitHub"
         >
         <Icon
             name="github"
-            class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
+            class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100"
         />
         </a>
     </div>
