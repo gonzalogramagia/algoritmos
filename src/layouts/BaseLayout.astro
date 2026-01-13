@@ -15,18 +15,20 @@ import { Icon } from "astro-icon/components";
     <main>
       <slot />
     </main>
-    <a
-      href="https://github.com/gonzalogramagia/algoritmos"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="fixed bottom-8 right-8 z-50 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
-      aria-label="Ir al repo de GitHub"
-    >
-      <Icon
-        name="github"
-        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
-      />
-    </a>
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 mx-auto max-w-screen-sm inset-x-0">
+        <a
+        href="https://github.com/gonzalogramagia/algoritmos"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="absolute pointer-events-auto top-8 right-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
+        aria-label="Ir al repo de GitHub"
+        >
+        <Icon
+            name="github"
+            class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
+        />
+        </a>
+    </div>
     <ConfigModal />
     <Footer />
   </body>

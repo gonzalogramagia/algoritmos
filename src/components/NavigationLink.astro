@@ -18,10 +18,10 @@
     const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
     const container = document.getElementById('navigation-link-container');
     if (container) {
-      if (config.showBackToRoot === false) {
-        container.style.display = 'none';
-      } else {
+      if (config.showBackToRoot === true) {
         container.style.display = 'block';
+      } else {
+        container.style.display = 'none';
       }
     }
   }

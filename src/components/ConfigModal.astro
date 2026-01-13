@@ -3,26 +3,29 @@ import { Icon } from "astro-icon/components";
 ---
 
 <!-- Floating Config Button -->
-<button
-  id="config-toggle-btn"
-  class="fixed bottom-8 left-8 z-50 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
-  aria-label="Abrir configuración"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
-  >
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-  </svg>
-</button>
+<!-- Floating Config Button Container (matches max-w-screen-sm) -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 mx-auto max-w-screen-sm inset-x-0">
+    <button
+      id="config-toggle-btn"
+      class="absolute pointer-events-auto top-8 left-8 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
+      aria-label="Abrir configuración"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
+      >
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+    </button>
+</div>
 
 <!-- Config Modal -->
 <dialog
@@ -44,6 +47,8 @@ import { Icon } from "astro-icon/components";
     <!-- Body -->
     <div class="flex-1 overflow-y-auto p-4 space-y-6">
       
+
+
       <!-- Switches -->
       <div class="space-y-4">
         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visibilidad</h3>
@@ -60,26 +65,40 @@ import { Icon } from "astro-icon/components";
         <label class="flex items-center justify-between cursor-pointer">
           <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Volver a la Raíz</span>
           <div class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="switch-root" class="sr-only peer" checked>
+            <input type="checkbox" id="switch-root" class="sr-only peer">
             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           </div>
         </label>
       </div>
 
-      <!-- Image Input -->
-      <div class="space-y-2">
-        <label for="input-image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Imagen Principal (URL)
-        </label>
-        <input
-          type="text"
-          id="input-image"
-          placeholder="https://ejemplo.com/foto.jpg"
-          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-        />
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          Deja en blanco para usar la imagen por defecto.
-        </p>
+      <!-- Links Editing -->
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Enlaces Personalizados</h3>
+        <div class="space-y-4">
+            
+            <!-- Link Superior -->
+            <div class="p-3 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 space-y-2 relative group">
+                <div class="flex items-center gap-2">
+                    <input type="text" id="input-top-title" placeholder="Título Link Superior (Arriba)" class="link-input block w-full rounded border-gray-300 bg-white p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    <button id="clear-top-link" class="text-gray-400 hover:text-red-500 transition-colors p-1" aria-label="Eliminar link superior" title="Eliminar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                </div>
+                <input type="text" id="input-top-url" placeholder="URL: https://www..." class="link-input block w-full rounded border-gray-300 bg-white p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            </div>
+
+            <!-- Link Inferior -->
+            <div class="p-3 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700 space-y-2 relative group">
+                 <div class="flex items-center gap-2">
+                    <input type="text" id="input-bottom-title" placeholder="Título Link Inferior (Abajo)" class="link-input block w-full rounded border-gray-300 bg-white p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    <button id="clear-bottom-link" class="text-gray-400 hover:text-red-500 transition-colors p-1" aria-label="Eliminar link inferior" title="Eliminar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                </div>
+                <input type="text" id="input-bottom-url" placeholder="URL: https://www..." class="link-input block w-full rounded border-gray-300 bg-white p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+            </div>
+
+        </div>
       </div>
 
     </div>
@@ -104,15 +123,34 @@ import { Icon } from "astro-icon/components";
   
   const switchCountdown = document.getElementById('switch-countdown') as HTMLInputElement;
   const switchRoot = document.getElementById('switch-root') as HTMLInputElement;
-  const inputImage = document.getElementById('input-image') as HTMLInputElement;
+
+  const inputTopTitle = document.getElementById('input-top-title') as HTMLInputElement;
+  const inputTopUrl = document.getElementById('input-top-url') as HTMLInputElement;
+  const inputBottomTitle = document.getElementById('input-bottom-title') as HTMLInputElement;
+  const inputBottomUrl = document.getElementById('input-bottom-url') as HTMLInputElement;
 
   // Load config logic
   function loadConfig() {
     const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
     
-    switchCountdown.checked = config.showCountdown !== false; // Default true
-    switchRoot.checked = config.showBackToRoot !== false; // Default true
-    inputImage.value = config.profileImageUrl || '';
+    switchCountdown.checked = config.showCountdown !== false; 
+    switchRoot.checked = config.showBackToRoot === true; 
+    
+    if (config.topLink) {
+        inputTopTitle.value = config.topLink.title || '';
+        inputTopUrl.value = config.topLink.url || '';
+    } else {
+        inputTopTitle.value = '';
+        inputTopUrl.value = '';
+    }
+
+    if (config.bottomLink) {
+        inputBottomTitle.value = config.bottomLink.title || '';
+        inputBottomUrl.value = config.bottomLink.url || '';
+    } else {
+        inputBottomTitle.value = '';
+        inputBottomUrl.value = '';
+    }
   }
 
   // Update config logic (Instant)
@@ -120,7 +158,14 @@ import { Icon } from "astro-icon/components";
     const config = {
       showCountdown: switchCountdown.checked,
       showBackToRoot: switchRoot.checked,
-      profileImageUrl: inputImage.value.trim()
+      topLink: {
+          title: inputTopTitle.value.trim(),
+          url: inputTopUrl.value.trim()
+      },
+      bottomLink: {
+          title: inputBottomTitle.value.trim(),
+          url: inputBottomUrl.value.trim()
+      }
     };
     
     localStorage.setItem('appConfig', JSON.stringify(config));
@@ -152,7 +197,30 @@ import { Icon } from "astro-icon/components";
   // Instant updates
   if (switchCountdown) switchCountdown.addEventListener('change', updateConfig);
   if (switchRoot) switchRoot.addEventListener('change', updateConfig);
-  if (inputImage) inputImage.addEventListener('input', updateConfig);
+  
+  [inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl].forEach(input => {
+      if (input) input.addEventListener('input', updateConfig);
+  });
+
+  // Clear Buttons Logic
+  const clearTopBtn = document.getElementById('clear-top-link');
+  const clearBottomBtn = document.getElementById('clear-bottom-link');
+
+  if (clearTopBtn) {
+      clearTopBtn.addEventListener('click', () => {
+          inputTopTitle.value = '';
+          inputTopUrl.value = '';
+          updateConfig();
+      });
+  }
+
+  if (clearBottomBtn) {
+      clearBottomBtn.addEventListener('click', () => {
+          inputBottomTitle.value = '';
+          inputBottomUrl.value = '';
+          updateConfig();
+      });
+  }
 
   // Initial load to sync switches if needed
   document.addEventListener('DOMContentLoaded', loadConfig);

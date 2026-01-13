@@ -3,11 +3,11 @@ import { Image } from "astro:assets";
 
 import { SITE } from "@/siteConfig";
 
-import profilePicture from "@/assets/profile-picture.jpg";
+import profilePicture from "@/assets/algoritmos.png";
 ---
 
 <div class="mt-8 pt-4 pb-2">
-  <a id="profile-link" href="https://youtu.be/9yqxX2r-KWo" target="_blank" rel="noopener noreferrer" class="block group">
+  <div class="block group">
     <Image
       id="profile-image"
       src={profilePicture}
@@ -18,8 +18,8 @@ import profilePicture from "@/assets/profile-picture.jpg";
       draggable="false"
       class="mx-auto size-32 rounded-full transition-all duration-300 ease-in-out"
     />
-    <h1 class="mt-4 text-center text-3xl font-semibold group-hover:text-yellow-500 transition-colors duration-200">{SITE.name}</h1>
-  </a>
+    <h1 class="mt-4 text-center text-3xl font-semibold text-yellow-500 transition-colors duration-200">{SITE.name}</h1>
+  </div>
   <p
     class="mt-1 text-balance text-center text-sm text-lightModeForegroundMuted dark:text-darkModeForegroundMuted"
   >
@@ -39,7 +39,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
   
   <!-- Componente de cuenta regresiva para parciales -->
   <div id="countdown-container" class="countdown-container text-center py-4 mt-8">
-    <h2 class="text-xl font-bold mb-4" style="color: #047af8;" id="countdown-title">MESA DE FINAL (10 DE FEBRERO)</h2>
+    <h2 class="text-2xl font-bold mb-4" style="color: #E58C61;" id="countdown-title">MESA DE FINAL (10 DE FEBRERO)</h2>
     <div class="countdown-timer text-lg font-mono p-4 mx-4">
       <span id="days">--</span> días, 
       <span id="hours">--</span> horas, 
@@ -139,24 +139,11 @@ import profilePicture from "@/assets/profile-picture.jpg";
 
       // Profile Image
       const profileImage = document.getElementById('profile-image');
-      const profileLink = document.getElementById('profile-link') as HTMLAnchorElement; // Cast for TS if needed, or just standard JS
-      
       if (config.profileImageUrl) {
         if (profileImage) {
           profileImage.src = config.profileImageUrl;
           profileImage.srcset = ''; 
         }
-        // Disable link
-        if (profileLink) {
-           profileLink.removeAttribute('href');
-           profileLink.style.pointerEvents = 'none';
-        }
-      } else {
-         // Enable link (restore default)
-         if (profileLink) {
-            profileLink.href = "https://youtu.be/9yqxX2r-KWo";
-            profileLink.style.pointerEvents = 'auto';
-         }
       }
     }
 

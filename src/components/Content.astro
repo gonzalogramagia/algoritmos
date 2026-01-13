@@ -9,7 +9,13 @@ import NavigationLink from "@/components/NavigationLink.astro";
 
 <Introduction />
 
-<ul class="grid gap-y-6 pb-12 pt-4 text-center">
+<ul id="custom-links-list" class="grid gap-y-6 pb-12 pt-4 text-center">
+  <!-- Dynamic Top Link -->
+  <li id="top-link-item" class="hidden">
+     <a id="top-link-anchor" href="#" target="_blank" rel="noopener noreferrer" class="hover:bg-lightModeCustomLinkBackgroundHover dark:hover:bg-darkModeCustomLinkBackgroundHover hover:ring-lightModeCustomLinkOutlineHover dark:hover:ring-darkModeCustomLinkOutlineHover hover:text-lightModeCustomLinkTextHover dark:hover:text-darkModeCustomLinkTextHover flex items-center justify-center gap-2 rounded-full bg-lightModeCustomLinkBackground px-6 py-3 text-lg text-lightModeCustomLinkText ring-2 ring-lightModeCustomLinkOutline transition-all duration-200 ease-in-out hover:scale-105 dark:bg-darkModeCustomLinkBackground dark:text-darkModeCustomLinkText dark:ring-darkModeCustomLinkOutline">
+     </a>
+  </li>
+
   {
     SITE.customLinks.map((link) => {
       return (
@@ -17,6 +23,47 @@ import NavigationLink from "@/components/NavigationLink.astro";
       );
     })
   }
+
+  <!-- Dynamic Bottom Link -->
+  <li id="bottom-link-item" class="hidden">
+     <a id="bottom-link-anchor" href="#" target="_blank" rel="noopener noreferrer" class="hover:bg-lightModeCustomLinkBackgroundHover dark:hover:bg-darkModeCustomLinkBackgroundHover hover:ring-lightModeCustomLinkOutlineHover dark:hover:ring-darkModeCustomLinkOutlineHover hover:text-lightModeCustomLinkTextHover dark:hover:text-darkModeCustomLinkTextHover flex items-center justify-center gap-2 rounded-full bg-lightModeCustomLinkBackground px-6 py-3 text-lg text-lightModeCustomLinkText ring-2 ring-lightModeCustomLinkOutline transition-all duration-200 ease-in-out hover:scale-105 dark:bg-darkModeCustomLinkBackground dark:text-darkModeCustomLinkText dark:ring-darkModeCustomLinkOutline">
+     </a>
+  </li>
 </ul>
+
+<script>
+  function applyConfig() {
+    const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    
+    // Top Link
+    const topItem = document.getElementById('top-link-item');
+    const topAnchor = document.getElementById('top-link-anchor') as HTMLAnchorElement;
+    if (topItem && topAnchor) {
+        if (config.topLink && config.topLink.title && config.topLink.url) {
+            topItem.classList.remove('hidden');
+            topAnchor.innerText = config.topLink.title;
+            topAnchor.href = config.topLink.url;
+        } else {
+            topItem.classList.add('hidden');
+        }
+    }
+
+    // Bottom Link
+    const bottomItem = document.getElementById('bottom-link-item');
+    const bottomAnchor = document.getElementById('bottom-link-anchor') as HTMLAnchorElement;
+    if (bottomItem && bottomAnchor) {
+        if (config.bottomLink && config.bottomLink.title && config.bottomLink.url) {
+            bottomItem.classList.remove('hidden');
+            bottomAnchor.innerText = config.bottomLink.title;
+            bottomAnchor.href = config.bottomLink.url;
+        } else {
+            bottomItem.classList.add('hidden');
+        }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', applyConfig);
+  window.addEventListener('config-updated', applyConfig);
+</script>
 
 <NavigationLink />
