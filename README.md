@@ -22,8 +22,9 @@ Core resources available directly from the homepage:
 
 Customize your experience with the persistent settings menu (bottom-left wrench icon):
 
-- **Toggle UI Elements**: Show or hide the **Countdown** and **Back to Root** link.
-- **Custom Links**: Add your own **Top** and **Bottom** links with custom titles and URLs.
+- **Toggle UI Elements**: Show or hide the **Countdown**.
+- **Dark Mode**: Switch between Light and Dark themes with persistent preferences.
+- **Custom Links**: Add your own **Top** and **Bottom** links (saved individually for each page).
 - **Persistence**: All settings are saved automatically to your browser's local storage.
 
 ## 🛠️ Technology Stack
