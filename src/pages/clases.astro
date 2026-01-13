@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Content from "@/components/Content.astro";
+import SeoPage from "@/components/SeoPage.astro";
+
+const customLinks = [
+    {
+      "id": "1728534585739",
+      "title": "🎥 Teórico de Programación FUNCIONAL (Franco Luque)",
+      "url": "https://www.youtube.com/playlist?list=PLLswL1pDm9IySjKob9nqV9xzlQlfHf1T_"
+    },
+    {
+      "id": "1728534585740",
+      "title": "🎥 Teórico de Programación IMPERATIVA (Franco Luque)",
+      "url": "https://www.youtube.com/playlist?list=PLLswL1pDm9IyEJ1zCLOs8qpEZLtPE_eqE"
+    },
+    {
+      "id": "1728534585741",
+      "title": "🎥 LAB de Programación Imperativa (Ale Gadea)",
+      "url": "https://www.youtube.com/playlist?list=PLLswL1pDm9Ix-uLjXPcfZN_m59luQYVhy"
+    },
+    {
+      "id": "1728534585742",
+      "title": "🎥 Práctico de Programación Imperativa (Franco Luque)",
+      "url": "https://www.youtube.com/playlist?list=PLLswL1pDm9Iwlb_XFikf9HUiRlLPzFjuW"
+    },
+    {
+      "id": "back-home",
+      "title": "⬅ Volver atrás",
+      "url": "/"
+    }
+];
+---
+
+<BaseLayout>
+  <SeoPage slot="head" title="Clases de Algoritmos I" />
+  <main>
+    <Content 
+        title="Clases de Algoritmos I"
+        bio="Playlists de YouTube"
+        links={customLinks}
+    />
+  </main>
+</BaseLayout>

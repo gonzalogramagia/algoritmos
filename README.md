@@ -13,7 +13,7 @@ Centralized portal for resources, classes, and exams for the "Algoritmos y Estru
 Core resources available directly from the homepage:
 
 - **🏫 Aula Virtual**: Access to the official Moodle course.
-- **🔗 Clases Virtuales**: Direct link to the recordings site.
+- **🔗 Clases Virtuales**: Dedicated page with organized YouTube playlists.
 - **✍ Exámenes Viejos**: Archive of past exams for practice.
 - **🗂 Drive Folder**: Practical works, digests, and other files.
 - **📝 Class Notes**: Supplementary notes from virtual classes.

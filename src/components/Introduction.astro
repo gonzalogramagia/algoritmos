@@ -3,7 +3,15 @@ import { Image } from "astro:assets";
 
 import { SITE } from "@/siteConfig";
 
-import profilePicture from "@/assets/algoritmos.png";
+import profilePictureSrc from "@/assets/algoritmos.png";
+
+interface Props {
+  title?: string;
+  bio?: string;
+}
+
+const { title = SITE.name, bio = SITE.bio } = Astro.props;
+const profilePicture = profilePictureSrc;
 ---
 
 <div class="mt-8 pt-4 pb-2">
@@ -18,12 +26,12 @@ import profilePicture from "@/assets/algoritmos.png";
       draggable="false"
       class="mx-auto size-32 rounded-full transition-all duration-300 ease-in-out"
     />
-    <h1 class="mt-4 text-center text-3xl font-semibold text-yellow-500 transition-colors duration-200">{SITE.name}</h1>
+    <h1 class="mt-4 text-center text-3xl font-semibold text-yellow-500 transition-colors duration-200">{title}</h1>
   </div>
   <p
     class="mt-1 text-balance text-center text-sm text-lightModeForegroundMuted dark:text-darkModeForegroundMuted"
   >
-    {SITE.bio}
+    {bio}
   </p>
   
   <!-- Spacer shown when countdown is hidden -->
@@ -65,7 +73,7 @@ import profilePicture from "@/assets/algoritmos.png";
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  function initIntroduction() {
     function updateCountdown() {
       // Fechas de los finales (hora 10:00 -03:00)
       const final1 = new Date('2026-02-10T10:00:00-03:00'); // MESA DE FINAL 1
@@ -93,14 +101,17 @@ import profilePicture from "@/assets/algoritmos.png";
       const difference = targetDate.getTime() - now.getTime();
       
       // Actualizar título e información del próximo
-      document.getElementById('countdown-title').textContent = title;
-      document.getElementById('next-parcial-info').textContent = nextInfo;
+      const titleEl = document.getElementById('countdown-title');
+      const infoEl = document.getElementById('next-parcial-info');
+      
+      if(titleEl) titleEl.textContent = title;
+      if(infoEl) infoEl.textContent = nextInfo;
       
       if (difference <= 0) {
-        document.getElementById('days').textContent = '0';
-        document.getElementById('hours').textContent = '0';
-        document.getElementById('minutes').textContent = '0';
-        document.getElementById('seconds').textContent = '0';
+        if(document.getElementById('days')) document.getElementById('days').textContent = '0';
+        if(document.getElementById('hours')) document.getElementById('hours').textContent = '0';
+        if(document.getElementById('minutes')) document.getElementById('minutes').textContent = '0';
+        if(document.getElementById('seconds')) document.getElementById('seconds').textContent = '0';
         return;
       }
       
@@ -109,16 +120,12 @@ import profilePicture from "@/assets/algoritmos.png";
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
       
-      document.getElementById('days').textContent = days.toString().padStart(2, '0');
-      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+      if(document.getElementById('days')) document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      if(document.getElementById('hours')) document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      if(document.getElementById('minutes')) document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      if(document.getElementById('seconds')) document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
     }
     
-    // Actualizar cada segundo
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
     // Configuración
     function applyConfig() {
       const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
@@ -138,7 +145,7 @@ import profilePicture from "@/assets/algoritmos.png";
       }
 
       // Profile Image
-      const profileImage = document.getElementById('profile-image');
+      const profileImage = document.getElementById('profile-image') as HTMLImageElement;
       if (config.profileImageUrl) {
         if (profileImage) {
           profileImage.src = config.profileImageUrl;
@@ -147,7 +154,18 @@ import profilePicture from "@/assets/algoritmos.png";
       }
     }
 
+    // Actualizar cada segundo
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
     applyConfig();
     window.addEventListener('config-updated', applyConfig);
-  });
+
+    // Cleanup on navigation
+    document.addEventListener('astro:before-swap', () => {
+        clearInterval(interval);
+        window.removeEventListener('config-updated', applyConfig);
+    }, { once: true });
+  }
+
+  document.addEventListener('astro:page-load', initIntroduction);
 </script>

@@ -26,6 +26,8 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', applyConfig);
-  window.addEventListener('config-updated', applyConfig);
+  document.addEventListener('astro:page-load', () => {
+    applyConfig();
+    window.addEventListener('config-updated', applyConfig);
+  });
 </script>

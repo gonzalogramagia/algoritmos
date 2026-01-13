@@ -5,9 +5,17 @@ import Introduction from "@/components/Introduction.astro";
 import IconLink from "@/components/IconLink.astro";
 import CustomLink from "@/components/CustomLink.astro";
 import NavigationLink from "@/components/NavigationLink.astro";
+
+interface Props {
+  title?: string;
+  bio?: string;
+  links?: any[];
+}
+
+const { title, bio, links = SITE.customLinks } = Astro.props;
 ---
 
-<Introduction />
+<Introduction title={title} bio={bio} />
 
 <ul id="custom-links-list" class="grid gap-y-6 pb-12 pt-4 text-center">
   <!-- Dynamic Top Link -->
@@ -17,7 +25,7 @@ import NavigationLink from "@/components/NavigationLink.astro";
   </li>
 
   {
-    SITE.customLinks.map((link) => {
+    links.map((link) => {
       return (
         <CustomLink url={link.url} text={link.title}>{link.title}</CustomLink>
       );
@@ -33,7 +41,8 @@ import NavigationLink from "@/components/NavigationLink.astro";
 
 <script>
   function applyConfig() {
-    const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    const key = window.location.pathname.startsWith('/clases') ? 'clasesConfig' : 'appConfig';
+    const config = JSON.parse(localStorage.getItem(key) || '{}');
     
     // Top Link
     const topItem = document.getElementById('top-link-item');
@@ -62,8 +71,15 @@ import NavigationLink from "@/components/NavigationLink.astro";
     }
   }
 
-  document.addEventListener('DOMContentLoaded', applyConfig);
-  window.addEventListener('config-updated', applyConfig);
+  document.addEventListener('astro:page-load', () => {
+      applyConfig();
+      window.addEventListener('config-updated', applyConfig);
+  });
 </script>
 
-<NavigationLink />
+<script>
+  // Hide NavigationLink logic (moved from NavigationLink.astro to handle context better or duplicated)
+  // Actually, NavigationLink handles its own config 'appConfig'.
+  // If we want NavigationLink to disappear on /clases or be controlled by clasesConfig, we should update NavigationLink too.
+  // But for now, let's keep Content script focused on Custom Links.
+</script>
