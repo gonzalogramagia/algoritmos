@@ -18,6 +18,14 @@ Core resources available directly from the homepage:
 - **🗂 Drive Folder**: Practical works, digests, and other files.
 - **📝 Class Notes**: Supplementary notes from virtual classes.
 
+## ⚙️ Configuration
+
+Customize your experience with the persistent settings menu (bottom-left wrench icon):
+
+- **Toggle UI Elements**: Show or hide the **Countdown** and **Back to Root** link.
+- **Customization**: Set a custom **Profile Image** via URL.
+- **Persistence**: All settings are saved automatically to your browser's local storage.
+
 ## 🛠️ Technology Stack
 
 Built with productivity and performance in mind:

@@ -9,6 +9,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
 <div class="mt-8 pt-4 pb-2">
   <a href="https://youtu.be/9yqxX2r-KWo" target="_blank" rel="noopener noreferrer" class="block group">
     <Image
+      id="profile-image"
       src={profilePicture}
       alt={SITE.name}
       height={256}
@@ -34,7 +35,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
   </div> */}
   
   <!-- Componente de cuenta regresiva para parciales -->
-  <div class="countdown-container text-center py-4 mt-8">
+  <div id="countdown-container" class="countdown-container text-center py-4 mt-8">
     <h2 class="text-xl font-bold mb-4" style="color: #047af8;" id="countdown-title">MESA DE FINAL (10 DE FEBRERO)</h2>
     <div class="countdown-timer text-lg font-mono p-4 mx-4">
       <span id="days">--</span> días, 
@@ -114,5 +115,30 @@ import profilePicture from "@/assets/profile-picture.jpg";
     // Actualizar cada segundo
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // Configuración
+    function applyConfig() {
+      const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+      
+      // Countdown visibility
+      const countdownContainer = document.getElementById('countdown-container');
+      if (countdownContainer) {
+        if (config.showCountdown === false) {
+           countdownContainer.style.display = 'none';
+        } else {
+           countdownContainer.style.display = 'block';
+        }
+      }
+
+      // Profile Image
+      const profileImage = document.getElementById('profile-image');
+      if (profileImage && config.profileImageUrl) {
+        profileImage.src = config.profileImageUrl;
+        profileImage.srcset = ''; // Clear srcset to prevent Astro responsive images from overriding
+      }
+    }
+
+    applyConfig();
+    window.addEventListener('config-updated', applyConfig);
   });
 </script>

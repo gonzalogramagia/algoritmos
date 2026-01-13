@@ -1,0 +1,183 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<!-- Floating Config Button -->
+<button
+  id="config-toggle-btn"
+  class="fixed bottom-8 left-8 z-50 flex items-center justify-center rounded-full border border-gray-200 bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl group"
+  aria-label="Abrir configuración"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500"
+  >
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+  </svg>
+</button>
+
+<!-- Config Modal -->
+<dialog
+  id="config-modal"
+  class="fixed inset-0 z-50 m-auto w-full max-w-sm rounded-xl border border-gray-200 bg-white p-0 shadow-2xl backdrop:bg-black/50 dark:border-gray-700 dark:bg-gray-800 focus:outline-none"
+>
+  <div class="relative flex flex-col max-h-[90vh]">
+    <!-- Header -->
+    <div class="flex items-center justify-between border-b border-gray-100 p-4 dark:border-gray-700">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Configuración</h2>
+      <button
+        id="close-config-btn"
+        class="rounded-full p-2 text-gray-500 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="M6 6 18 18"/></svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-6">
+      
+      <!-- Switches -->
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visibilidad</h3>
+        <p class="text-xs text-slate-500 mb-2">Controla qué elementos quieres ver en tu pantalla.</p>
+
+        <label class="flex items-center justify-between cursor-pointer">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Cuenta Regresiva</span>
+          <div class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="switch-countdown" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </div>
+        </label>
+
+        <label class="flex items-center justify-between cursor-pointer">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Volver a la Raíz</span>
+          <div class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="switch-root" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Image Input -->
+      <div class="space-y-2">
+        <label for="input-image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Imagen Principal (URL)
+        </label>
+        <input
+          type="text"
+          id="input-image"
+          placeholder="https://ejemplo.com/foto.jpg"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        />
+        <p class="text-xs text-gray-500 dark:text-gray-400">
+          Deja en blanco para usar la imagen por defecto.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-gray-100 p-4 dark:border-gray-700">
+      <button
+        id="close-modal-footer-btn"
+        class="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Listo
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const toggleBtn = document.getElementById('config-toggle-btn');
+  const modal = document.getElementById('config-modal') as HTMLDialogElement;
+  const closeBtn = document.getElementById('close-config-btn');
+  const footerCloseBtn = document.getElementById('close-modal-footer-btn');
+  
+  const switchCountdown = document.getElementById('switch-countdown') as HTMLInputElement;
+  const switchRoot = document.getElementById('switch-root') as HTMLInputElement;
+  const inputImage = document.getElementById('input-image') as HTMLInputElement;
+
+  // Load config logic
+  function loadConfig() {
+    const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    
+    switchCountdown.checked = config.showCountdown !== false; // Default true
+    switchRoot.checked = config.showBackToRoot !== false; // Default true
+    inputImage.value = config.profileImageUrl || '';
+  }
+
+  // Update config logic (Instant)
+  function updateConfig() {
+    const config = {
+      showCountdown: switchCountdown.checked,
+      showBackToRoot: switchRoot.checked,
+      profileImageUrl: inputImage.value.trim()
+    };
+    
+    localStorage.setItem('appConfig', JSON.stringify(config));
+    
+    // Dispatch event for other components to update
+    window.dispatchEvent(new CustomEvent('config-updated'));
+  }
+
+  // Event Listeners
+  if (toggleBtn && modal) {
+    toggleBtn.addEventListener('click', () => {
+      loadConfig();
+      modal.showModal();
+    });
+  }
+
+  if (closeBtn && modal) {
+    closeBtn.addEventListener('click', () => {
+      modal.close();
+    });
+  }
+
+  if (footerCloseBtn && modal) {
+    footerCloseBtn.addEventListener('click', () => {
+      modal.close();
+    });
+  }
+
+  // Instant updates
+  if (switchCountdown) switchCountdown.addEventListener('change', updateConfig);
+  if (switchRoot) switchRoot.addEventListener('change', updateConfig);
+  if (inputImage) inputImage.addEventListener('input', updateConfig);
+
+  // Initial load to sync switches if needed
+  document.addEventListener('DOMContentLoaded', loadConfig);
+</script>
+
+<style>
+  /* Optional: styling for backdrop if not supported by Tailwind config directly or for specific modal behavior */
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+  }
+  
+  /* Animation for modal */
+  dialog {
+    transition: opacity 0.2s allow-discrete, display 0.2s allow-discrete, overlay 0.2s allow-discrete;
+    opacity: 0;
+  }
+  
+  dialog[open] {
+    opacity: 1;
+  }
+  
+  @starting-style {
+    dialog[open] {
+      opacity: 0;
+    }
+  }
+</style>
