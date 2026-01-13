@@ -54,16 +54,28 @@ import { Icon } from "astro-icon/components";
         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visibilidad</h3>
         <p class="text-xs text-slate-500 mb-2">Controla qué elementos quieres ver en tu pantalla.</p>
 
-        <label class="flex items-center justify-between cursor-pointer">
-          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Cuenta Regresiva</span>
+        <label class="flex items-center justify-between cursor-pointer group">
+          <div class="flex items-center gap-2">
+            <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+                 <Icon name="lucide:timer" id="icon-countdown-on" class="absolute w-5 h-5 transition-all scale-100 rotate-0" />
+                 <Icon name="lucide:timer-off" id="icon-countdown-off" class="absolute w-5 h-5 transition-all scale-0 -rotate-90 hidden" />
+            </div>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Cuenta Regresiva</span>
+          </div>
           <div class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="switch-countdown" class="sr-only peer" checked>
             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           </div>
         </label>
 
-        <label class="flex items-center justify-between cursor-pointer">
-          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Modo Oscuro</span>
+        <label class="flex items-center justify-between cursor-pointer group">
+          <div class="flex items-center gap-2">
+             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+                <Icon name="lucide:moon" id="icon-darkmode-on" class="absolute w-5 h-5 transition-all scale-100 rotate-0" />
+                <Icon name="lucide:sun" id="icon-darkmode-off" class="absolute w-5 h-5 transition-all scale-0 rotate-90 hidden" />
+             </div>
+             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Modo Oscuro</span>
+          </div>
           <div class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="switch-darkmode" class="sr-only peer">
             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -159,11 +171,14 @@ import { Icon } from "astro-icon/components";
     }
     
     // Switches -> Shared (appConfig)
+    // DarkMode defaults to true if undefined
+    const isDark = appConfig.darkMode !== false; 
     switchCountdown.checked = appConfig.showCountdown !== false; 
-    switchDarkMode.checked = appConfig.darkMode === true;
+    switchDarkMode.checked = isDark;
     
     // Apply initial state
-    toggleDarkMode(appConfig.darkMode === true);
+    toggleDarkMode(isDark);
+    updateIcons();
     
     // Links -> Page Specific (pageConfig)
     if (pageConfig.topLink) {
@@ -194,6 +209,7 @@ import { Icon } from "astro-icon/components";
     localStorage.setItem('appConfig', JSON.stringify(appConfig));
 
     toggleDarkMode(appConfig.darkMode);
+    updateIcons();
 
     // 2. Update Page Config (Links)
     // If we are on home, we just updated appConfig, so we must add links to it.
@@ -235,6 +251,37 @@ import { Icon } from "astro-icon/components";
     } else {
       document.documentElement.classList.remove('dark');
     }
+  }
+
+  function updateIcons() {
+     const timerOn = document.getElementById('icon-countdown-on');
+     const timerOff = document.getElementById('icon-countdown-off');
+     const moon = document.getElementById('icon-darkmode-on');
+     const sun = document.getElementById('icon-darkmode-off');
+     
+     if (switchCountdown.checked) {
+         timerOn?.classList.remove('hidden', 'scale-0', '-rotate-90');
+         timerOn?.classList.add('scale-100', 'rotate-0');
+         timerOff?.classList.add('hidden', 'scale-0', '-rotate-90');
+         timerOff?.classList.remove('scale-100', 'rotate-0');
+     } else {
+         timerOn?.classList.add('hidden', 'scale-0', 'rotate-90');
+         timerOn?.classList.remove('scale-100', 'rotate-0');
+         timerOff?.classList.remove('hidden', 'scale-0', '-rotate-90');
+         timerOff?.classList.add('scale-100', 'rotate-0');
+     }
+
+     if (switchDarkMode.checked) {
+         moon?.classList.remove('hidden', 'scale-0', 'rotate-90');
+         moon?.classList.add('scale-100', 'rotate-0');
+         sun?.classList.add('hidden', 'scale-0', '-rotate-90');
+         sun?.classList.remove('scale-100', 'rotate-0');
+     } else {
+         moon?.classList.add('hidden', 'scale-0', 'rotate-90');
+         moon?.classList.remove('scale-100', 'rotate-0');
+         sun?.classList.remove('hidden', 'scale-0', '-rotate-90');
+         sun?.classList.add('scale-100', 'rotate-0');
+     }
   }
 
   function setupEventListeners() {

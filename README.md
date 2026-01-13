@@ -12,15 +12,15 @@ Centralized portal for resources, classes, and exams for the "Algoritmos y Estru
 
 Core resources available directly from the homepage:
 
-- **🏫 Aula Virtual**: Access to the official Moodle course.
-- **🔗 Clases Virtuales**: Dedicated page with organized YouTube playlists.
-- **✍ Exámenes Viejos**: Archive of past exams for practice.
-- **🗂 Drive Folder**: Practical works, digests, and other files.
-- **📝 Class Notes**: Supplementary notes from virtual classes.
+- **🏫 Virtual Classroom**: Access to the official Moodle course.
+- **🔗 Recorded Lectures**: Dedicated page with organized YouTube playlists.
+- **✍ Exams Archive**: Archive of past exams for practice.
+- **🗂 Shared Drive Folder**: Practical works, digests, and other files.
+- **📝 Professor Notes**: Lecture Notes [(Prof. Franco Luque)](https://ri.conicet.gov.ar/author/16916).
 
 ## ⚙️ Configuration
 
-Customize your experience with the persistent settings menu (bottom-left wrench icon):
+Customize your experience with the persistent settings menu (top-left wrench icon):
 
 - **Toggle UI Elements**: Show or hide the **Countdown**.
 - **Dark Mode**: Switch between Light and Dark themes with persistent preferences.
