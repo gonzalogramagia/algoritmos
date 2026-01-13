@@ -116,37 +116,62 @@ import { Icon } from "astro-icon/components";
 </dialog>
 
 <script>
-  const toggleBtn = document.getElementById('config-toggle-btn');
-  const modal = document.getElementById('config-modal') as HTMLDialogElement;
-  const closeBtn = document.getElementById('close-config-btn');
-  const footerCloseBtn = document.getElementById('close-modal-footer-btn');
-  
-  const switchCountdown = document.getElementById('switch-countdown') as HTMLInputElement;
-  const switchRoot = document.getElementById('switch-root') as HTMLInputElement;
+  // State variables - re-select on each load
+  let toggleBtn, modal, closeBtn, footerCloseBtn;
+  let switchCountdown, switchRoot;
+  let inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl;
 
-  const inputTopTitle = document.getElementById('input-top-title') as HTMLInputElement;
-  const inputTopUrl = document.getElementById('input-top-url') as HTMLInputElement;
-  const inputBottomTitle = document.getElementById('input-bottom-title') as HTMLInputElement;
-  const inputBottomUrl = document.getElementById('input-bottom-url') as HTMLInputElement;
+  function initConfig() {
+     toggleBtn = document.getElementById('config-toggle-btn');
+     modal = document.getElementById('config-modal') as HTMLDialogElement;
+     closeBtn = document.getElementById('close-config-btn');
+     footerCloseBtn = document.getElementById('close-modal-footer-btn');
+    
+     switchCountdown = document.getElementById('switch-countdown') as HTMLInputElement;
+     switchRoot = document.getElementById('switch-root') as HTMLInputElement;
+
+     inputTopTitle = document.getElementById('input-top-title') as HTMLInputElement;
+     inputTopUrl = document.getElementById('input-top-url') as HTMLInputElement;
+     inputBottomTitle = document.getElementById('input-bottom-title') as HTMLInputElement;
+     inputBottomUrl = document.getElementById('input-bottom-url') as HTMLInputElement;
+    
+     loadConfig();
+     setupEventListeners();
+  }
 
   // Load config logic
+  function getConfigKey() {
+    return window.location.pathname.startsWith('/clases') ? 'clasesConfig' : 'appConfig';
+  }
+
   function loadConfig() {
-    const config = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    const pageKey = getConfigKey();
+    const appConfig = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    // If we are on home, pageConfig IS appConfig. If not, it's separate.
+    const pageConfig = pageKey === 'appConfig' ? appConfig : JSON.parse(localStorage.getItem(pageKey) || '{}');
     
-    switchCountdown.checked = config.showCountdown !== false; 
-    switchRoot.checked = config.showBackToRoot === true; 
+    // Update Header
+    const modalTitle = document.querySelector('#config-modal h2');
+    if (modalTitle) {
+         modalTitle.textContent = pageKey === 'clasesConfig' ? 'Configuración (Clases)' : 'Configuración';
+    }
     
-    if (config.topLink) {
-        inputTopTitle.value = config.topLink.title || '';
-        inputTopUrl.value = config.topLink.url || '';
+    // Switches -> Shared (appConfig)
+    switchCountdown.checked = appConfig.showCountdown !== false; 
+    switchRoot.checked = appConfig.showBackToRoot === true; 
+    
+    // Links -> Page Specific (pageConfig)
+    if (pageConfig.topLink) {
+        inputTopTitle.value = pageConfig.topLink.title || '';
+        inputTopUrl.value = pageConfig.topLink.url || '';
     } else {
         inputTopTitle.value = '';
         inputTopUrl.value = '';
     }
 
-    if (config.bottomLink) {
-        inputBottomTitle.value = config.bottomLink.title || '';
-        inputBottomUrl.value = config.bottomLink.url || '';
+    if (pageConfig.bottomLink) {
+        inputBottomTitle.value = pageConfig.bottomLink.title || '';
+        inputBottomUrl.value = pageConfig.bottomLink.url || '';
     } else {
         inputBottomTitle.value = '';
         inputBottomUrl.value = '';
@@ -155,75 +180,100 @@ import { Icon } from "astro-icon/components";
 
   // Update config logic (Instant)
   function updateConfig() {
-    const config = {
-      showCountdown: switchCountdown.checked,
-      showBackToRoot: switchRoot.checked,
-      topLink: {
-          title: inputTopTitle.value.trim(),
-          url: inputTopUrl.value.trim()
-      },
-      bottomLink: {
-          title: inputBottomTitle.value.trim(),
-          url: inputBottomUrl.value.trim()
-      }
-    };
+    const pageKey = getConfigKey();
     
-    localStorage.setItem('appConfig', JSON.stringify(config));
+    // 1. Update Shared Config (Switches)
+    const appConfig = JSON.parse(localStorage.getItem('appConfig') || '{}');
+    appConfig.showCountdown = switchCountdown.checked;
+    appConfig.showBackToRoot = switchRoot.checked;
+    localStorage.setItem('appConfig', JSON.stringify(appConfig));
+
+    // 2. Update Page Config (Links)
+    // If we are on home, we just updated appConfig, so we must add links to it.
+    // If we are on clases, we fetch distinct config.
+    
+    if (pageKey === 'appConfig') {
+        // We are on home, appConfig already has the switches, now add links
+        appConfig.topLink = {
+            title: inputTopTitle.value.trim(),
+            url: inputTopUrl.value.trim()
+        };
+        appConfig.bottomLink = {
+            title: inputBottomTitle.value.trim(),
+            url: inputBottomUrl.value.trim()
+        };
+        localStorage.setItem('appConfig', JSON.stringify(appConfig));
+    } else {
+        // We are on classes or other
+        const pageConfig = JSON.parse(localStorage.getItem(pageKey) || '{}');
+        pageConfig.topLink = {
+            title: inputTopTitle.value.trim(),
+            url: inputTopUrl.value.trim()
+        };
+        pageConfig.bottomLink = {
+            title: inputBottomTitle.value.trim(),
+            url: inputBottomUrl.value.trim()
+        };
+        localStorage.setItem(pageKey, JSON.stringify(pageConfig));
+    }
     
     // Dispatch event for other components to update
     window.dispatchEvent(new CustomEvent('config-updated'));
   }
 
-  // Event Listeners
-  if (toggleBtn && modal) {
-    toggleBtn.addEventListener('click', () => {
-      loadConfig();
-      modal.showModal();
-    });
-  }
-
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
-      modal.close();
-    });
-  }
-
-  if (footerCloseBtn && modal) {
-    footerCloseBtn.addEventListener('click', () => {
-      modal.close();
-    });
-  }
-
-  // Instant updates
-  if (switchCountdown) switchCountdown.addEventListener('change', updateConfig);
-  if (switchRoot) switchRoot.addEventListener('change', updateConfig);
   
-  [inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl].forEach(input => {
-      if (input) input.addEventListener('input', updateConfig);
-  });
+  function setupEventListeners() {
+    // Modal controls
+    if (toggleBtn && modal) {
+        toggleBtn.addEventListener('click', () => {
+        loadConfig();
+        modal.showModal();
+        });
+    }
 
-  // Clear Buttons Logic
-  const clearTopBtn = document.getElementById('clear-top-link');
-  const clearBottomBtn = document.getElementById('clear-bottom-link');
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+        modal.close();
+        });
+    }
 
-  if (clearTopBtn) {
-      clearTopBtn.addEventListener('click', () => {
-          inputTopTitle.value = '';
-          inputTopUrl.value = '';
-          updateConfig();
-      });
-  }
+    if (footerCloseBtn && modal) {
+        footerCloseBtn.addEventListener('click', () => {
+        modal.close();
+        });
+    }
 
-  if (clearBottomBtn) {
-      clearBottomBtn.addEventListener('click', () => {
-          inputBottomTitle.value = '';
-          inputBottomUrl.value = '';
-          updateConfig();
-      });
+    // Instant updates
+    if (switchCountdown) switchCountdown.addEventListener('change', updateConfig);
+    if (switchRoot) switchRoot.addEventListener('change', updateConfig);
+    
+    [inputTopTitle, inputTopUrl, inputBottomTitle, inputBottomUrl].forEach(input => {
+        if (input) input.addEventListener('input', updateConfig);
+    });
+
+    // Clear Buttons Logic
+    const clearTopBtn = document.getElementById('clear-top-link');
+    const clearBottomBtn = document.getElementById('clear-bottom-link');
+
+    if (clearTopBtn) {
+        clearTopBtn.addEventListener('click', () => {
+            if(inputTopTitle) inputTopTitle.value = '';
+            if(inputTopUrl) inputTopUrl.value = '';
+            updateConfig();
+        });
+    }
+
+    if (clearBottomBtn) {
+        clearBottomBtn.addEventListener('click', () => {
+            if(inputBottomTitle) inputBottomTitle.value = '';
+            if(inputBottomUrl) inputBottomUrl.value = '';
+            updateConfig();
+        });
+    }
   }
 
   // Initial load to sync switches if needed
-  document.addEventListener('DOMContentLoaded', loadConfig);
+  document.addEventListener('astro:page-load', initConfig);
 </script>
 
 <style>
