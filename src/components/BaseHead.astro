@@ -4,12 +4,19 @@ import { ViewTransitions } from "astro:transitions";
 import { SITE } from "@/siteConfig";
 
 import Favicons from "@/components/Favicons.astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title = SITE.name } = Astro.props;
 ---
 
 <head>
+  <title>{title}</title>
   <!-- Open Graph (usado por WhatsApp, Facebook, LinkedIn) -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content={SITE.name} />
+  <meta property="og:title" content={title} />
   <meta
     property="og:description"
     content="💻 Links útiles de la carrera de Compu de FAMAF"
