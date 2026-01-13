@@ -23,7 +23,7 @@ Core resources available directly from the homepage:
 Customize your experience with the persistent settings menu (bottom-left wrench icon):
 
 - **Toggle UI Elements**: Show or hide the **Countdown** and **Back to Root** link.
-- **Customization**: Set a custom **Profile Image** via URL.
+- **Custom Links**: Add your own **Top** and **Bottom** links with custom titles and URLs.
 - **Persistence**: All settings are saved automatically to your browser's local storage.
 
 ## 🛠️ Technology Stack
