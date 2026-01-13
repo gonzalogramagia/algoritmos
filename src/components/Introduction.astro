@@ -7,7 +7,7 @@ import profilePicture from "@/assets/profile-picture.jpg";
 ---
 
 <div class="mt-8 pt-4 pb-2">
-  <a href="https://youtu.be/9yqxX2r-KWo" target="_blank" rel="noopener noreferrer" class="block group">
+  <a id="profile-link" href="https://youtu.be/9yqxX2r-KWo" target="_blank" rel="noopener noreferrer" class="block group">
     <Image
       id="profile-image"
       src={profilePicture}
@@ -132,9 +132,24 @@ import profilePicture from "@/assets/profile-picture.jpg";
 
       // Profile Image
       const profileImage = document.getElementById('profile-image');
-      if (profileImage && config.profileImageUrl) {
-        profileImage.src = config.profileImageUrl;
-        profileImage.srcset = ''; // Clear srcset to prevent Astro responsive images from overriding
+      const profileLink = document.getElementById('profile-link') as HTMLAnchorElement; // Cast for TS if needed, or just standard JS
+      
+      if (config.profileImageUrl) {
+        if (profileImage) {
+          profileImage.src = config.profileImageUrl;
+          profileImage.srcset = ''; 
+        }
+        // Disable link
+        if (profileLink) {
+           profileLink.removeAttribute('href');
+           profileLink.style.pointerEvents = 'none';
+        }
+      } else {
+         // Enable link (restore default)
+         if (profileLink) {
+            profileLink.href = "https://youtu.be/9yqxX2r-KWo";
+            profileLink.style.pointerEvents = 'auto';
+         }
       }
     }
 
