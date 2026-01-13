@@ -157,6 +157,12 @@ import { Icon } from "astro-icon/components";
     
      loadConfig();
      setupEventListeners();
+     
+     // Auto-open modal if coming from /config
+     if (sessionStorage.getItem('openConfigModal') === 'true') {
+       sessionStorage.removeItem('openConfigModal');
+       modal?.showModal();
+     }
   }
 
   // Load config logic

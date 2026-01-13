@@ -1,0 +1,25 @@
+---
+// Redirect to home and open config modal
+const referrer = Astro.request.headers.get('referer') || '/';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración</title>
+</head>
+<body>
+    <script>
+        // Get the referrer or default to home
+        const referrer = document.referrer || '/';
+        
+        // Store a flag to open config modal
+        sessionStorage.setItem('openConfigModal', 'true');
+        
+        // Redirect back to referrer
+        window.location.href = referrer;
+    </script>
+</body>
+</html>

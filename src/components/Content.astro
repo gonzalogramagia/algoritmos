@@ -72,7 +72,7 @@ const shouldPlaceBottomLinkBeforeLast = Astro.url.pathname.startsWith('/clases')
     if (path.startsWith('/clases')) key = 'clasesConfig';
     if (path.startsWith('/salud')) key = 'saludConfig';
 
-    // Initialize default bottom link for salud if not set
+    // Initialize default links for salud if not set
     if (key === 'saludConfig') {
       const existingConfig = JSON.parse(localStorage.getItem(key) || '{}');
       
@@ -84,21 +84,52 @@ const shouldPlaceBottomLinkBeforeLast = Astro.url.pathname.startsWith('/clases')
         };
       }
       
+      // Set default bottom link if not exists
+      if (!existingConfig.bottomLink || (!existingConfig.bottomLink.title && !existingConfig.bottomLink.url)) {
+        existingConfig.bottomLink = {
+          title: '<⚙/> Obra Social PASOS',
+          url: 'https://unc.edu.ar/vida-estudiantil/pasos'
+        };
+      }
+      
       localStorage.setItem(key, JSON.stringify(existingConfig));
+    }
+
+    // Initialize default bottom link for clases if not set
+    if (key === 'clasesConfig') {
+      const existingConfig = JSON.parse(localStorage.getItem(key) || '{}');
+      
+      // Set default bottom link if not exists
+      if (!existingConfig.bottomLink || (!existingConfig.bottomLink.title && !existingConfig.bottomLink.url)) {
+        existingConfig.bottomLink = {
+          title: '<⚙/> Click para agregar tu propio link',
+          url: '/config'
+        };
+        localStorage.setItem(key, JSON.stringify(existingConfig));
+      }
     }
 
     // Initialize default bottom link for home page if not set
     if (key === 'appConfig') {
       const existingConfig = JSON.parse(localStorage.getItem(key) || '{}');
       
+      // Set default top link if not exists
+      if (!existingConfig.topLink || (!existingConfig.topLink.title && !existingConfig.topLink.url)) {
+        existingConfig.topLink = {
+          title: '<⚙/> Autogestión (Guaraní UNC)',
+          url: 'https://autogestion.guarani.unc.edu.ar/'
+        };
+      }
+      
       // Set default bottom link if not exists
       if (!existingConfig.bottomLink || (!existingConfig.bottomLink.title && !existingConfig.bottomLink.url)) {
         existingConfig.bottomLink = {
-          title: '<⚙/> Bienestar Estudiantil',
+          title: '⚙ Bienestar Estudiantil',
           url: '/salud'
         };
-        localStorage.setItem(key, JSON.stringify(existingConfig));
       }
+      
+      localStorage.setItem(key, JSON.stringify(existingConfig));
     }
 
     const config = JSON.parse(localStorage.getItem(key) || '{}');
