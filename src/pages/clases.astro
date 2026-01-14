@@ -32,12 +32,16 @@ const customLinks = [
 ];
 ---
 
-<BaseLayout>
+<BaseLayout
+  floatingButtonUrl="https://www.youtube.com/@goalritmo/playlists"
+  floatingButtonIcon="lucide:play"
+  floatingButtonLabel="Playlists de YouTube"
+>
   <SeoPage slot="head" title="Clases de Algoritmos I" />
   <main>
     <Content 
         title="Clases de Algoritmos I"
-        bio="Computación FAMAF"
+        bio=""
         links={customLinks}
     />
     <!-- Spacer to match index layout consistency -->
