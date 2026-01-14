@@ -33,8 +33,8 @@ Built with productivity and performance in mind:
 
 - **Framework**: [Astro 4](https://astro.build/) - For a fast, content-focused site.
 - **Styling**: [Tailwind CSS 3](https://tailwindcss.com/) - Utility-first CSS framework.
-- **Language**: [TypeScript](https://www.typescriptlang.org/) - For type safety and cleaner code.
-- **Icons**: [Astro Icon](https://www.astroicon.dev/) - Optimized SVG icons.
+- **Language**: [TypeScript](https://typescriptlang.org/) - For type safety and cleaner code.
+- **Icons**: [Astro Icon](https://astroicon.dev/) - Optimized SVG icons.
 
 ---
 

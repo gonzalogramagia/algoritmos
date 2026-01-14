@@ -12,13 +12,15 @@ interface Props {
   floatingButtonUrl?: string;
   floatingButtonIcon?: string;
   floatingButtonLabel?: string;
+  floatingButtonIconTransform?: string;
 }
 
 const { 
   title = SITE.name, 
   floatingButtonUrl = "https://github.com/gonzalogramagia/algoritmos",
   floatingButtonIcon = "github",
-  floatingButtonLabel = "Ir al repo de GitHub"
+  floatingButtonLabel = "Ir al repo de GitHub",
+  floatingButtonIconTransform = ""
 } = Astro.props;
 ---
 
@@ -40,7 +42,7 @@ const {
         >
         <Icon
             name={floatingButtonIcon}
-            class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100"
+            class={`w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100 ${floatingButtonIconTransform}`}
         />
         </a>
     </div>

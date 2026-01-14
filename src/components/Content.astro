@@ -80,7 +80,7 @@ const shouldPlaceBottomLinkBeforeLast = Astro.url.pathname.startsWith('/clases')
       if (!existingConfig.topLink || (!existingConfig.topLink.title && !existingConfig.topLink.url)) {
         existingConfig.topLink = {
           title: '<⚙/> Taller de Ajedrez',
-          url: 'https://www.ajedrezfamaf.com/'
+          url: 'https://ajedrezfamaf.com/'
         };
       }
       
@@ -102,7 +102,7 @@ const shouldPlaceBottomLinkBeforeLast = Astro.url.pathname.startsWith('/clases')
       // Set default bottom link if not exists
       if (!existingConfig.bottomLink || (!existingConfig.bottomLink.title && !existingConfig.bottomLink.url)) {
         existingConfig.bottomLink = {
-          title: '<⚙/> Click para agregar tus propios link',
+          title: '<⚙/> Click para agregar tus propios links',
           url: '/config'
         };
         localStorage.setItem(key, JSON.stringify(existingConfig));
