@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import ConfigModal from "@/components/ConfigModal.astro";
 import { Icon } from "astro-icon/components";
 import { SITE } from "@/siteConfig";
+import { Image } from "astro:assets";
 import wallpaper from "@/assets/wallpaper.png";
 
 interface Props {
@@ -34,10 +35,12 @@ const {
       <slot />
     </main>
     <div class="fixed inset-0 z-[-1] pointer-events-none">
-        <img
-            src={wallpaper.src}
+        <Image
+            src={wallpaper}
             alt=""
             class="w-full h-full object-cover opacity-5"
+            loading="eager"
+            quality={80}
         />
     </div>
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 mx-auto max-w-screen-sm inset-x-0">

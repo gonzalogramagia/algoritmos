@@ -353,6 +353,13 @@ import { Icon } from "astro-icon/components";
 
   // Initial load to sync switches if needed
   document.addEventListener('astro:page-load', initConfig);
+  
+  // Fallback for non-SPA navigation (production builds without view transitions)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initConfig);
+  } else {
+    initConfig();
+  }
 </script>
 
 <style>
