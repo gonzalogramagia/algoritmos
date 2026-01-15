@@ -20,7 +20,7 @@ import { Icon } from "astro-icon/components";
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100"
+        class="w-6 h-6 text-gray-900 transition-colors group-hover:text-brand dark:text-gray-100"
       >
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
       </svg>
@@ -56,7 +56,7 @@ import { Icon } from "astro-icon/components";
 
         <label class="flex items-center justify-between cursor-pointer group" id="countdown-switch-container">
           <div class="flex items-center gap-2">
-             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-brand dark:group-hover:text-brand transition-colors">
                  <Icon name="lucide:timer" id="icon-countdown-on" class="absolute w-5 h-5 transition-all scale-100" />
                  <Icon name="lucide:timer-off" id="icon-countdown-off" class="absolute w-5 h-5 transition-all scale-0 hidden" />
             </div>
@@ -64,13 +64,13 @@ import { Icon } from "astro-icon/components";
           </div>
           <div class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="switch-countdown" class="sr-only peer" checked>
-            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand dark:peer-focus:ring-brand rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-brand"></div>
           </div>
         </label>
 
         <label class="flex items-center justify-between cursor-pointer group">
           <div class="flex items-center gap-2">
-             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors">
+             <div class="relative w-5 h-5 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-brand dark:group-hover:text-brand transition-colors">
                 <Icon name="lucide:moon" id="icon-darkmode-on" class="absolute w-5 h-5 transition-all scale-100 rotate-0" />
                 <Icon name="lucide:sun" id="icon-darkmode-off" class="absolute w-5 h-5 transition-all scale-0 rotate-90 hidden" />
              </div>
@@ -78,7 +78,7 @@ import { Icon } from "astro-icon/components";
           </div>
           <div class="relative inline-flex items-center cursor-pointer">
             <input type="checkbox" id="switch-darkmode" class="sr-only peer">
-            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-brand dark:peer-focus:ring-brand rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-brand"></div>
           </div>
         </label>
 
@@ -121,7 +121,7 @@ import { Icon } from "astro-icon/components";
     <div class="border-t border-gray-100 p-4 dark:border-gray-700">
       <button
         id="close-modal-footer-btn"
-        class="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="w-full rounded-lg bg-brand px-5 py-2.5 text-center text-sm font-medium text-white hover:brightness-90 focus:outline-none focus:ring-4 focus:ring-brand dark:bg-brand dark:hover:brightness-90 dark:focus:ring-brand"
       >
         Listo
       </button>
@@ -188,8 +188,8 @@ import { Icon } from "astro-icon/components";
     }
     
     // Switches -> Shared (appConfig)
-    // DarkMode defaults to true if undefined
-    const isDark = appConfig.darkMode !== false; 
+    // DarkMode defaults to false if undefined (changed from true)
+    const isDark = appConfig.darkMode === true; 
     switchCountdown.checked = appConfig.showCountdown !== false; 
     switchDarkMode.checked = isDark;
     

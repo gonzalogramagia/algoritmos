@@ -9,6 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: "rgb(var(--color-brand) / <alpha-value>)",
         lightModeBackground:
           "rgb(var(--light-mode-background) / <alpha-value>)",
         lightModeForeground:

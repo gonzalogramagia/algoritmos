@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import ConfigModal from "@/components/ConfigModal.astro";
 import { Icon } from "astro-icon/components";
 import { SITE } from "@/siteConfig";
+import wallpaper from "@/assets/wallpaper.png";
 
 interface Props {
   title?: string;
@@ -32,6 +33,13 @@ const {
     <main>
       <slot />
     </main>
+    <div class="fixed inset-0 z-[-1] pointer-events-none">
+        <img
+            src={wallpaper.src}
+            alt=""
+            class="w-full h-full object-cover opacity-5"
+        />
+    </div>
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-50 mx-auto max-w-screen-sm inset-x-0">
         <a
         href={floatingButtonUrl}
@@ -42,7 +50,7 @@ const {
         >
         <Icon
             name={floatingButtonIcon}
-            class={`w-6 h-6 text-gray-900 transition-colors group-hover:text-blue-500 dark:text-gray-100 ${floatingButtonIconTransform}`}
+            class={`w-6 h-6 text-gray-900 transition-colors group-hover:text-brand dark:text-gray-100 ${floatingButtonIconTransform}`}
         />
         </a>
     </div>
